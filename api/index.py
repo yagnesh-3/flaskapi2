@@ -28,9 +28,15 @@ def get_data():
             return jsonify({"detail": "No user found."}), 404
 
         return jsonify({"users": users}), 200
-
-    except:
-        return "error-yagnesh"
+    except requests.exceptions.HTTPError as http_err:
+        # Specific exception for HTTP errors
+        return jsonify({"error": "HTTPError", "message": str(http_err)}), 500
+    except requests.exceptions.RequestException as req_err:
+        # Catch other request-related exceptions
+        return jsonify({"error": "RequestException", "message": str(req_err)}), 500
+    except Exception as e:
+        # Generic exception handler
+        return jsonify({"error": "Exception", "message": str(e)}), 500
 
 @app.route('/about')
 def about():

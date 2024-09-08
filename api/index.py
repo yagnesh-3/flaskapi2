@@ -27,7 +27,7 @@ def get_data():
         if not users:
             return jsonify({"detail": "No user found."}), 404
 
-        return jsonify(users), 200
+        return jsonify(users[0]["user_image"]), 200
     except requests.exceptions.HTTPError as http_err:
         # Specific exception for HTTP errors
         return jsonify({"error": "HTTPError", "message": str(http_err)}), 500
